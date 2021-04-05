@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: cache-test-api
+  description: Cache test API with OAS+Terraform
+  version: 1.0.0
+  contact:
+    name: Steve
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+servers:
+  - url: https://dummmy
+
+tags:
+  - name: test
+    description: test tag
+
+paths:
+  /test:
+    post:
+      description: Create single item
+      operationId: createItem
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testObject"
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/error"
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+
+    put:
+      description: Update single item
+      operationId: updateItem
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testObject"
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/error"
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+
+    get:
+      description: Get collection
+      operationId: getCollection
+      tags:
+        - test
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/testObject"
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/error"
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+
+  /test/search:
+    post:
+      description: get single item (as a post)
+      operationId: getSingletonPost
+      tags:
+        - test
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/testObject"
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+        cacheKeyParameters:
+          - method.request.body.id
+
+  /test/{id}:
+    get:
+      description: get single item
+      operationId: getSingleton
+      tags:
+        - test
+      parameters:
+        - name: id
+          in: path
+          description: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/testObject"
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+        cacheKeyParameters:
+          - method.request.path.id
+  
+    delete:
+      description: Delete single item
+      operationId: deleteItem
+      tags:
+        - test
+      parameters:
+        - name: id
+          in: path
+          description: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+
+    testObject:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: number
+        field1:
+          type: string
+        timestamp:
+          type: string
