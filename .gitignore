@@ -1,3 +1,4 @@
 .serverless
 .terraform
+.tfstate*
 node_modules

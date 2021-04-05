@@ -110,5 +110,5 @@ resource "aws_lambda_permission" "apigw_lambda" {
 
 
 output "endpoint" {
-  value = aws_api_gateway_rest_api.example.execution_arn
+  value = "${aws_api_gateway_deployment.example.invoke_url}${aws_api_gateway_stage.example.stage_name}"
 }

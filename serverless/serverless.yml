@@ -15,8 +15,6 @@ provider:
   stackTags:
     PRODUCT: cache-test
     STAGE: ${self:provider.stage}
-  deploymentBucket:
-    name: serverless-deployment-102850798067
   
   iamRoleStatements:
     - Effect: Allow

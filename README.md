@@ -2,6 +2,10 @@
 
 Demonstrates api gateway caching, using a serverless project to mock up back-end Lambda + DB's with synthetic delay's. API Gateway config managed by Terraform and based on OAS definition.
 
+## Dependencies
+- AWS account + cli + creds setup
+- aws-sdk (for ```make load```)
+
 ## Install
 From the root folder run ```make apply``` then ```make load``` to populate the DDB table with sample data.
 
