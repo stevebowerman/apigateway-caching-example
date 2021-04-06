@@ -8,11 +8,14 @@ info:
   license:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
 servers:
-  - url: 'https://dummmy'
+  - url: https://dummmy
+
 tags:
   - name: test
     description: test tag
+
 paths:
   /test:
     post:
@@ -24,7 +27,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/testObject'
+              $ref: "#/components/schemas/testObject"
       responses:
         '204':
           description: Success
@@ -32,14 +35,9 @@ paths:
           description: Error
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        uri: >-
-          arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
-        passthroughBehavior: when_no_match
-        type: aws_proxy
+              schema: 
+                $ref: "#/components/schemas/error"
+
     put:
       description: Update single item
       operationId: updateItem
@@ -49,7 +47,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/testObject'
+              $ref: "#/components/schemas/testObject"
       responses:
         '204':
           description: Success
@@ -57,14 +55,9 @@ paths:
           description: Error
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        uri: >-
-          arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
-        passthroughBehavior: when_no_match
-        type: aws_proxy
+              schema: 
+                $ref: "#/components/schemas/error"
+
     get:
       description: Get collection
       operationId: getCollection
@@ -78,19 +71,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/testObject'
+                  $ref: "#/components/schemas/testObject"
         '400':
           description: Error
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        uri: >-
-          arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
-        passthroughBehavior: when_no_match
-        type: aws_proxy
+              schema: 
+                $ref: "#/components/schemas/error"
+
   /test/search:
     post:
       description: get single item (as a post)
@@ -112,25 +100,16 @@ paths:
           description: Success
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/testObject'
+              schema: 
+                $ref: "#/components/schemas/testObject"
         '400':
           description: Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        uri: >-
-          arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
-        passthroughBehavior: when_no_match
-        type: aws_proxy
-        requestParameters:
-          integration.request.path.id: method.request.body.id
-        cacheKeyParameters:
-          - integration.request.path.id
-  '/test/{id}':
+                $ref: "#/components/schemas/error"
+
+  /test/{id}:
     get:
       description: get single item
       operationId: getSingleton
@@ -148,22 +127,15 @@ paths:
           description: Success
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/testObject'
+              schema: 
+                $ref: "#/components/schemas/testObject"
         '400':
           description: Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        uri: >-
-          arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
-        passthroughBehavior: when_no_match
-        type: aws_proxy
-        cacheKeyParameters:
-          - method.request.path.id
+                $ref: "#/components/schemas/error"
+  
     delete:
       description: Delete single item
       operationId: deleteItem
@@ -184,13 +156,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
-      x-amazon-apigateway-integration:
-        httpMethod: POST
-        uri: >-
-          arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
-        passthroughBehavior: when_no_match
-        type: aws_proxy
+                $ref: "#/components/schemas/error"
+
 components:
   schemas:
     error:
@@ -206,6 +173,7 @@ components:
               type: string
             message:
               type: string
+
     testObject:
       type: object
       required:

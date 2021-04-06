@@ -1,0 +1,51 @@
+paths:
+  /test:
+    post:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+
+    put:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+
+    get:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+
+  /test/search:
+    post:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+        requestParameters:
+          integration.request.path.id: method.request.body.id
+        cacheKeyParameters:
+          - integration.request.path.id
+
+  /test/{id}:
+    get:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
+        cacheKeyParameters:
+          - method.request.path.id
+  
+    delete:
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/${LAMBDA}/invocations
+        passthroughBehavior: when_no_match
+        type: aws_proxy
